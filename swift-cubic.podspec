@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "swift-cubic"
-  spec.version      = "0.0.2"
+  spec.version      = spec.version.to_s
   spec.summary      = "A library used to create applications for iOS using remote Cubic ASR engine."
 
   # This description is used to generate tags and improve search results.
