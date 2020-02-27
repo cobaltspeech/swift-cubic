@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "swift-cubic"
-  spec.version      = "0.0.6"
+  spec.version      = "0.0.7"
   spec.summary      = "A library used to create applications for iOS using remote Cubic ASR engine."
 
   # This description is used to generate tags and improve search results.
@@ -144,9 +144,9 @@ Pod::Spec.new do |spec|
   #  you can include multiple dependencies to ensure it works.
 
   # spec.requires_arc = true
-  s.default_subspecs = 'SwiftGRPC'
+  spec.default_subspecs = 'SwiftGRPC'
 
-  s.subspec 'CoreKit' do |ss|
+  spec.subspec 'CoreKit' do |ss|
     ss.dependency 'SwiftProtobuf', "~> 1.0"
   end
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
