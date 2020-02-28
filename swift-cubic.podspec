@@ -144,12 +144,20 @@ Pod::Spec.new do |spec|
   #  you can include multiple dependencies to ensure it works.
 
   # spec.requires_arc = true
-  spec.default_subspecs = 'SwiftGRPC'
+  #spec.default_subspecs = 'SwiftGRPC'
 
-  spec.subspec 'CoreKit' do |ss|
-    ss.dependency 'SwiftProtobuf', "~> 1.0"
-  end
+  #spec.subspec 'CoreKit' do |ss|
+  #  ss.dependency 'SwiftProtobuf', "~> 1.0"
+  #end
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # spec.dependency "JSONKit", "~> 1.4"
-
+  spec.dependency 'SwiftProtobuf', "~> 1.0"
+  spec.dependency 'SwiftNIO'
+  spec.dependency 'SwiftGRPC'
+  spec.dependency 'GRPC' :
+  #spec.dependency 'GRPS', :git => './grpc'
+  #spec.subspec 'SuperGRPS' do |sp|
+  #   spec.source       = { :git => "https://github.com/grpc/grpc-swift.git", :tag => "1.0.0-alpha.9" }
+  #   sp.source_files  = "Sources", "Sources/**/*"
+  # end
 end
