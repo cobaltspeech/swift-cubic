@@ -99,6 +99,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
         return CubicManager.getDocumentsDirectory().appendingPathComponent("whistle\(name).wav")
     }
     
+    @available(iOS 9.0, *)
     public func startStream() {
         let call = self.client.streamingRecognize(handler: { (recres) in
             self.delegate?.streamCompletion(recres)
@@ -120,6 +121,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
         self.startAudioEngine()
     }
     
+    @available(iOS 9.0, *)
     func startAudioEngine() {
         try! AVAudioSession.sharedInstance().setCategory(.playAndRecord)
         try! AVAudioSession.sharedInstance().setActive(true)
@@ -189,6 +191,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
         self.isRecord = true
     }
     
+    @available(iOS 9.0, *)
     private func sendStreamPartToServer(_ buffer: AVAudioPCMBuffer, _ time: AVAudioTime) {
         if let oldCall = self.callStream {
             var req = Cobaltspeech_Cubic_StreamingRecognizeRequest()
@@ -206,11 +209,13 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
         }
     }
     
+    @available(iOS 9.0, *)
     func stopStream() {
         stopAudioEngine()
         stopGRPCStream()
     }
     
+    @available(iOS 9.0, *)
     private func stopAudioEngine() {
         if audioEngine != nil && audioEngine.isRunning {
             audioEngine.stop()
