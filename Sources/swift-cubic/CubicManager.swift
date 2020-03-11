@@ -9,6 +9,7 @@ import AVFoundation
 import SwiftProtobuf
 import GRPC
 import NIO
+import NIOSSL
 
 public protocol CubicManagerDelegate: class {
     
@@ -48,7 +49,7 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
                                                                  networkPreference: .best)
     }
     
-    public init(host: String, port: Int, useTLS: Bool) {
+    public init(host: String, port: Int, useTLS: Bool = false) {
         let target = ConnectionTarget.hostAndPort(host, port)
         self.eventLoopGroup = PlatformSupport.makeEventLoopGroup(loopCount: 1,
                                                                  networkPreference: .best)
@@ -58,7 +59,24 @@ public class CubicManager: NSObject, AVAudioRecorderDelegate {
         let configuration = ClientConnection.Configuration(target: target, eventLoopGroup: self.eventLoopGroup, errorDelegate: nil, connectivityStateDelegate: nil, tls: tls, connectionBackoff: nil)
         let connection = ClientConnection.init(configuration: configuration)
         self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)
+    }
+    
+    public init(host: String, port: Int, tlsCertificateFileName: String, tlsCertificateFormat: NIOSSLSerializationFormats) {
+        let target = ConnectionTarget.hostAndPort(host, port)
+        self.eventLoopGroup = PlatformSupport.makeEventLoopGroup(loopCount: 1,
+                                                                 networkPreference: .best)
         
+        var configuration = ClientConnection.Configuration(target: target, eventLoopGroup: self.eventLoopGroup)
+        
+        if let cert = try? NIOSSLCertificate(file: tlsCertificateFileName, format: tlsCertificateFormat) {
+            let source = NIOSSLCertificateSource.certificate(cert)
+            var tls = ClientConnection.Configuration.TLS()
+            tls.certificateChain.append(source)
+            configuration.tls = tls
+        }
+        
+        let connection = ClientConnection.init(configuration: configuration)
+        self.client = Cobaltspeech_Cubic_CubicServiceClient(connection: connection)
     }
     
     func log(_ text: String){
