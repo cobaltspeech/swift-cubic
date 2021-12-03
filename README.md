@@ -1,1 +1,3 @@
-# swift-cubic
+# CubicsvrConfig
+
+A description of this package.
