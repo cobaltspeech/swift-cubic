@@ -188,7 +188,8 @@ public struct CubicsvrConfig: Codable {
         do {
             var tomlString = try absolutePathsConfig.tomlString()
             
-            tomlString = tomlString.replacingOccurrences(of: "[server.grpc]", with: "[server]\n[server.grpc]")
+            tomlString = tomlString.replacingOccurrences(of: "[server.grpc]", with: "[server]\n[server.http]\n[server.grpc]")
+            tomlString.append(contentsOf: "\n\n[logging]\n\n[recognizer]\n\n[storage]")
             
             if FileManager.default.fileExists(atPath: path.path) {
                 try FileManager.default.removeItem(at: path)
@@ -196,7 +197,8 @@ public struct CubicsvrConfig: Codable {
             
             try tomlString.write(to: path, atomically: true, encoding: .utf8)
             var relativeTomlString = try self.tomlString()
-            relativeTomlString = relativeTomlString.replacingOccurrences(of: "[server.grpc]", with: "[server]\n[server.grpc]")
+            relativeTomlString = relativeTomlString.replacingOccurrences(of: "[server.grpc]", with: "[server]\n[server.http]\n[server.grpc]")
+            relativeTomlString.append(contentsOf: "\n\n[logging]\n\n[recognizer]\n\n[storage]")
             return relativeTomlString
         } catch {
             print(error)
